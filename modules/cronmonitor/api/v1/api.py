@@ -23,14 +23,17 @@ actual_path = realpath(argv[0])
 relative_path = actual_path[actual_path.find('modules'):]
 directory_depth = relative_path.count('/')-1
 to_append = abspath(join(split(argv[0])[0], '../'*directory_depth))
-#print('Appending to path: [%s]'%(to_append))
+if __debug__:
+    print('Appending to path: [%s]'%(to_append))
 path.append(to_append)
 
 # --=-- Local application imports
 from cronmonitor.api import common as common
-#print(common.get_users())
+if __debug__:
+    print(common.get_users())
 from mail import sendmail as mailx
-#print(dir())
+if __debug__:
+    print(dir())
 
 ###################################################################################################
 # Data file
@@ -52,7 +55,8 @@ if isfile(data_dump):
     for k, v in loaded_dict.items():
         global_dict[k] = v
 else:
-    #print('registered_cron_scripts.p file not found, initializing it')
+    if __debug__:
+        print('registered_cron_scripts.p file not found, initializing it')
     pickle.dump(dict(global_dict), open(data_dump, 'wb'))
 
 if __name__ == '__main__':
@@ -135,12 +139,22 @@ def validate_cron_entries_updates(local_dict):
             registered_time, last_time_update = local_dict[script]
             now = datetime.datetime.now()
             delta = (now - last_time_update).total_seconds()
-            print('script [%s] last update[%s] Delta since last update [%s] seconds'%(script, last_time_update, delta))
+            if __debug__:
+                print('script [%s] last update[%s] Delta since last update [%s] seconds'%(script, last_time_update, delta))
             if delta > max_timeout:
-                mail_to = '7185645054@txt.att.net'
-                mail_subject = 'script [%s] last update[%s] late by [%s] seconds'%(script, last_time_update, delta)
-                print('Sending email to [%s] : [%s]'%(mail_to, mail_subject))
-                mailx.send_email(to='7185645054@txt.att.net', subject='Script [%s] has not run'%(script))
+                # Data file
+                error_email_sent_time_data_dump = 'registered_cron_scripts.error_email_sent_time.%s.p'%(script)
+                now = datetime.datetime.now()
+                error_email_sent_time = now
+                if isfile(error_email_sent_time_data_dump):
+                    error_email_sent_time = pickle.load(open(error_email_sent_time_data_dump, 'rb'))
+                if (now - error_email_sent_time).total_seconds() > 60*60:
+                    pickle.dump(datetime.datetime.now(), open(error_email_sent_time_data_dump, 'wb'))
+                    mail_to = '7185645054@txt.att.net'
+                    mail_subject = 'script [%s] last update[%s] late by [%s] seconds'%(script, last_time_update, delta)
+                    if __debug__:
+                        print('Sending email to [%s] : [%s]'%(mail_to, mail_subject))
+                    mailx.send_email(to='7185645054@txt.att.net', subject='Script [%s] has not run'%(script))
 
         # forcing Manager to update and synchronize across proxies
         time.sleep(10)
@@ -148,12 +162,13 @@ def validate_cron_entries_updates(local_dict):
 ########################################################################
 # Create the process that will keep monitoring scripts and updates
 action_process = Process(target=validate_cron_entries_updates, args=(global_dict,))
-print('Starting monitoring thread')
+if __debug__:
+    print('Starting monitoring thread')
 if action_process.is_alive()==False:
     try:
         action_process.start()
     except:
-        print('Could not start cron_entries_updater action_process thread')
+        print('ERROR: Could not start cron_entries_updater action_process thread')
 
 if __name__ == '__main__':
     api.run()
