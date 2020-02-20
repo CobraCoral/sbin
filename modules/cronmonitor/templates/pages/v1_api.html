@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <title>Cron Monitor APIv1</title>
+    <style>
+        h1 {
+          text-shadow: 2px 2px 4px #ccf5ff;
+          color: black;
+        }
+        table {
+          border: 2px solid black;
+          width: 30%;
+          padding: 5px;
+        }
+        
+        table, td, th {
+          text-align: left;
+        }
+        th {
+          background-color: #ccf5ff;
+          text-shadow: 2px 2px 4px gray;
+          color: black;
+        }
+        th, td {
+          border-bottom: 1px solid #ddd;
+        }
+        tr:hover {background-color: #f5f5f5;}
+    </style>
+<!--
+    border-collapse: collapse;
+-->
+</head>
+<body>
+    <h1>v1 Endpoints</h1>
+    <table id='v1Endpoints'>
+        <!-- table header -->
+        <tr>
+           <th> Endpoints </th>
+           <th> URL </th>
+           <th> Methods </th>
+        </tr>
+
+        <!-- table rows -->
+        {% for key, value in api_dict.items() %}
+        <tr>
+           <td> {{ key }} </td>
+           <td> {{ value[0] }} </td>
+           <td> {{ value[1] }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {# a comment #}
+    <!-- need to add the javascript here as we are atempting to access the table,
+        and it is only created in the body definition -->
+    <script src="{{ url_for('static', filename='js/table_click.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cron Monitor</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <style>
+        h1 {
+          text-shadow: 2px 2px 4px red;
+          color: black;
+        }
+        h2 {
+          text-shadow: 2px 2px 4px gray;
+          color: black;
+        }
+        li {
+          color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cron Monitor</h1>
+    <h2>API versions supported</h1>
+    <ul>
+    {% for version in versions %}
+    <li> <a href={{version}}>{{ version }}</a></li>
+    {% endfor %}
+    </ul>
+    {# a comment #}
+</body>
+</html>

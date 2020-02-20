@@ -1,0 +1,27 @@
+{% extends 'pages/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{# application content needs to be provided in the app_content block #}
+{% block app_content %}
+<body>
+    <h1>v1 Registered Cron Scripts</h1>
+    <table>
+        <!-- table header -->
+        <tr>
+           <th> Script </th>
+           <th> Time Registered </th>
+           <th> Time Last Updated </th>
+        </tr>
+
+        <!-- table rows -->
+        {% for key, value in cron_scripts.items() %}
+        <tr>
+           <td> {{ key }} </td>
+           <td> {{ value[0] }} </td>
+           <td> {{ value[1] }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {# a comment #}
+</body>
+{% endblock %}

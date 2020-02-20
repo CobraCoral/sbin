@@ -6,3 +6,6 @@ export UPDATE_GOOGLE_DOMAINS_PASSWORD=WdDGB8X5BEcVxfvc
 export UPDATE_GOOGLE_DOMAINS_DOMAIN=babyyoda.fernandojeronymo.info
 
 /home/fcavalcanti/work/sbin/updatemyip.py
+
+# let monitor know we run 
+curl --header 'Content-Type: application/json' -d '{"script":"updatemyip"}' http://localhost:5000/v1/update

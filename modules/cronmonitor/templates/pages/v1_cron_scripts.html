@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <title>Cron Monitor APIv1 : List Registered Cron Scripts</title>
+    <style>
+        h1 {
+          text-shadow: 2px 2px 4px #ccf5ff;
+          color: black;
+        }
+        table {
+          border: 2px solid black;
+          width: 30%;
+          padding: 5px;
+        }
+        
+        table, td, th {
+          text-align: left;
+        }
+        th {
+          background-color: #ccf5ff;
+          text-shadow: 2px 2px 4px gray;
+          color: black;
+        }
+        th, td {
+          border-bottom: 1px solid #ddd;
+        }
+        tr:hover {background-color: #f5f5f5;}
+    </style>
+</head>
+<body>
+    <h1>v1 Registered Cron Scripts</h1>
+    <table id='registeredCronScriptsTable'>
+        <!-- table header -->
+        <tr>
+           <th> Script </th>
+           <th> Time Registered </th>
+           <th> Time Last Updated </th>
+        </tr>
+
+        <!-- table rows -->
+        {% for key, value in cron_scripts.items() %}
+        <tr>
+           <td> {{ key }} </td>
+           <td> {{ value[0] }} </td>
+           <td> {{ value[1] }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {# a comment #}
+</body>
+</html>

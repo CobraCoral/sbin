@@ -15,7 +15,7 @@ import logging
 import requests
 from base64 import b64encode
 from http.client import HTTPSConnection
-from packages.network import iptools
+from modules.network import iptools
 
 def getOrUpdateLastSavedIP(IPv4, IPv6):
     replace_ip = True
@@ -82,7 +82,7 @@ def updateGoogleDomain():
     hostnames = list(set(hostnames))
     my_ip_hostname = hostnames[0]
     IPv4 = iptools.get_external_ip_address()
-    IPv6 = iptools.get_external_ip_address('AF_INET6')
+    IPv6 = iptools.get_external_ip_address(family='AF_INET6')
     logging.info('My IP Hostname: [%s], IPv4: [%s] IPv6: [%s]', my_ip_hostname, IPv4, IPv6)
 
     # Do we need to update it?
