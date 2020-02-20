@@ -58,19 +58,24 @@ def get_external_ip_address(*, family='AF_INET', provider=None, timeout=5):
     if family == 'AF_INET6':
         provider_dictionary = IPv6_providers
 
-    # specific provider requested
-    if provider:
-        provider_url, provider_ip_function = provider_dictionary[provider]
-        result_ip = provider_ip_function(send_request(provider_url))
-        if not result_ip:
-            logger.error('get_external_ip_address: provider [%s] specified, but we could not retrieve an address due to a requests error.'%(provider))
+    try:
+        # specific provider requested
+        if provider:
+            provider_url, provider_ip_function = provider_dictionary[provider]
+            result_ip = provider_ip_function(send_request(provider_url))
+            if not result_ip:
+                logger.error('get_external_ip_address: provider [%s] specified, but we could not retrieve an address due to a requests error.'%(provider))
 
-    # no particular provider requested, try each until we succeed
-    for provider in provider_dictionary.keys():
-        provider_url, provider_ip_function = provider_dictionary[provider]
-        result_ip = provider_ip_function(send_request(provider_url))
-        if result_ip:
-            return result_ip
+        # no particular provider requested, try each until we succeed
+        for provider in provider_dictionary.keys():
+            provider_url, provider_ip_function = provider_dictionary[provider]
+            result_ip = provider_ip_function(send_request(provider_url))
+            if result_ip:
+                return result_ip
+    except:
+        e = sys.exc_info()[0]
+        logger.error('get_external_ip_address: %s'%(e))
+        return None
 
 def resolve_domain_with_dns(domain):
     '''
