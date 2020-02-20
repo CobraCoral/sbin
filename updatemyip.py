@@ -32,7 +32,7 @@ def getOrUpdateLastSavedIP(IPv4, IPv6):
                 file.seek(0)
                 file.write(ip_file)
                 file.close()
-                logging.info('Need to update IP ... new IP saved in [%s]%'(myipFile))
+                logging.info('Need to update IP ... new IP saved in [%s]'%(myipFile))
             else:
                 replace_ip = False
                 logging.info('IP is same as before, no need to update it.')
