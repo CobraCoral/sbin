@@ -47,7 +47,13 @@ def get_external_ip_address(*, family='AF_INET', provider=None, timeout=5):
         jsonip = ['http://ipv4.jsonip.com', ip_dict_string_processor],
         httpbin = ['http://httpbin.org/ip', origin_dict_string_processor],
         ipv4bot = ['http://ipv4bot.whatismyipaddress.com', ip_string_processor],
+        ipinfo = ['http://ipinfo.io', ip_string_processor],
+        ipapi = ['http://api.ipapi.com/70.126.90.220?access_key=7e6e7ae0d7e7b79d05bf3a002eb327cc', ip_string_processor],
         )
+
+    # force AF_INET6 for google for now
+    if provider == 'google':
+        family = 'AF_INET6'
 
     IPv6_providers = dict(
         google = ['https://domains.google.com/checkip', ip_string_processor],
