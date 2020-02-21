@@ -9,3 +9,6 @@ export UPDATE_GOOGLE_DOMAINS_DOMAIN=babyyoda.fernandojeronymo.info
 
 # let monitor know we run 
 curl --silent --header 'Content-Type: application/json' -d '{"script":"updatemyip"}' http://localhost:5000/v1/update 1>/dev/null 2>&1
+# with httpie
+#http -v POST http://localhost:5000/v1/update script=updatemyip
+
