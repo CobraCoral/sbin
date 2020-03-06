@@ -1,0 +1,21 @@
+# Size of a variable in zsh (or bash)
+echo $((${#TERM} - ${#TERM##*-}))
+# OR
+var='a/b/c/d/e/f/something.txt'
+echo $var[0,$((${#var} - ${#var##*/}))]
+
+# print last N columns with awk:
+## awk '{out=$9; for(i=10;i<=NF;i++){out=out" "$i}; print out}'
+
+# Moving latest files only 
+for i in `ls -latr --color=no ~/Downloads/ | grep --color=no 'Jan 24 16:20' | grep -v " \." | awk '{out=$9; for(i=10;i<=NF;i++){out=out" "$i}; print out}' | sed 's/ /_U_/g'`; do x=`echo ~/Downloads/$i | sed 's/_U_/ /'g`; mv "$x" .; done
+
+# Summing a column with dollar signs
+cat ~/Documents/CStrandClaims.csv | grep -v 'Amount Billed' | sort -rn | sed 's/\$//' | awk 'BEGIN {FS = ","} ; {sum+=$9} END {print sum}'
+
+# Python and bitmath and psutil
+>>> import bitmath, psutil
+>>> used = bitmath.Byte(bytes=psutil.disk_usage('/').used)                                                                                                                                                                                                                 
+>>> free = bitmath.Byte(bytes=psutil.disk_usage('/').free)                                                                                                                                                                                                                 
+>>> pct = psutil.disk_usage('/').percent
+'Total: %s Free: %s (%s%%)'%((used+free).best_prefix().format("{value:.0f}{unit}"), free.best_prefix().format("{value:.2f}{unit}"), pct)

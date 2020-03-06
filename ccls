@@ -1,0 +1,5 @@
+#!/bin/sh
+# Includes from clang -v -fsyntax-only -x c++ /dev/null
+# ResourceDir from clang -print-resource-dir
+#exec /usr/local/bin/ccls --init='{"clang":{"extraArgs":["-i/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0","-i/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0","-i/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/backward","-i/usr/include/clang/6.0.0/include","-i/usr/local/include","-i/usr/include/x86_64-linux-gnu","-i/usr/include"],"resourceDir":"/usr/lib/llvm-6.0/lib/clang/6.0.0"}}' --log-file=/tmp/ccls.log --log-file-append -v=2 "$@"
+exec /usr/local/bin/ccls --init='{"clang":{"extraArgs":["-i/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0","-i/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0","-i/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/backward","-i/usr/include/clang/6.0.0/include","-i/usr/local/include","-i/usr/include/x86_64-linux-gnu","-i/usr/include"],"resourceDir":"/usr/lib/llvm-6.0/lib/clang/6.0.0"}}' "$@"
