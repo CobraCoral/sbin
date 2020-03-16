@@ -1,4 +1,5 @@
 #!/bin/sh
+#set -x
 # File: host.sh
 #
 # Return system ID on stdout (all on one line) as:
@@ -256,6 +257,18 @@ case X${system} in
       if [ -z "$dist_revision" ] ; then
         dist_revision="0"
       fi
+    elif [ -f /etc/lsb-release ] ; then
+        dist_name="Ubuntu"
+        if [ -f /etc/os-release ] ; then
+            codename=$(cat /etc/os-release | awk '/^VERSION=/' | xargs -I '{}' expr '{}' : 'VERSION=[0-9]\+\.[0-9]\+ \+\(.*\)')
+            dist_name="$dist_name-$codename"
+        fi
+        vers=$(lsb_release -a 2>/dev/null | awk '/^Release/' | awk '{ print $NF }')
+        dist_version=`expr "$vers" : "\([0-9]\+\)"`
+        dist_revision=`expr "$vers" : "[0-9]\+\.\([0-9]\+\)"`
+        if [ -z "$dist_revision" ] ; then
+          dist_revision="0"
+        fi
     fi
     ;;
 
